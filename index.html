@@ -1,0 +1,345 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Movie Box</title>
+		<link href="./css/bootstrap.css" rel='stylesheet' type='text/css' />
+		<script src="./js/jquery.min.js"></script>
+		<link href="./css/style.css" rel='stylesheet' type='text/css' />
+		<script type="text/javascript" src="./js/move-top.js"></script>
+		<script type="text/javascript" src="./js/easing.js"></script>
+		<script type="text/javascript" src="./js/util.js"></script>
+		<script type="text/javascript" src="./js/stickUp.min.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+		<style>
+		div.justify { text-align: justify}
+		div.justify > span { display: inline-block /* Opera */; padding-left: 100%; }
+		</style>
+	</head>
+	<body>
+		<div id="home" class="header">
+			<div class="navbar-wrapper" style="width:100%;">
+      			<div class="navwrapper" style="width:100%;">
+        			<div class="navbar-inverse navbar-static-top" >
+          				<div class="container" style="text-align:center;margin:0 auto;">
+            				<div class="navbar-header">
+              					<a class="navbar-brand" href="#">Movie Box</a>
+            				</div>
+	            			<div class="navbar-collapse collapse">
+	              				<ul class="nav navbar-nav">
+	                				<li class="menuItem"><a href="#aboutproject" class="anchor">About Project</a></li>
+	                				<li class="menuItem"><a href="#ourwork" class="anchor">Implemention</a></li>
+	                				<li class="menuItem"><a href="#performance" class="anchor">Performance</a></li>
+	                				<li class="menuItem"><a href="#contact" class="anchor">About Us</a></li>
+	             				 </ul>
+	            			</div>
+          				</div>
+      				</div><!-- End Navbar -->
+      			</div>
+    		</div> <!-- END NAVBAR -->
+			<div class="top-header">
+				<div class="container">
+					<div class="clearfix"> </div>
+					<div class="top-header-info">
+						<p>
+							So,<br/>
+							What movie <br/>
+							Shall I see<br/>
+							Tonight?<br/>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--End of Head -!-->
+		<div class="aboutus" id="aboutproject">
+			<div class="container">
+				<h2>ABOUT OUR PROJECT</h2>
+				<span></span>
+					<div class="col-md-6 aboutus-left">
+						<h3>What is our project?</h3>
+						<p>
+							Our task is to recommend favorite movies to users and compute the accuracy of our prediction based on the processed data that originated from Amazon movie websites. The Recommender Systems have become extremely common in recent years, and are applied in a variety of applications, especially on movies, music, news, books, to predict the preference that user would give to an item. It is great to implement it!
+						</p>
+						<h3>What is our data?</h3>
+						<p>
+							The data set we have utilized currently have three attributes after processed - User ID, Item ID and Score to the movie rated by the user. For each attribute, there are approximately 1 million examples. Here we use the 10-folds cross validation method and the indicator result RMSE to measure the performance of our system. We randomly split the data we processed into ten folds, and use nine of them to train and the rest to test for ten times. 
+						</p>
+						<h3>What methods do we use?</h3>
+						<p>
+							The main method in our recommend system is based on <strong>Matrix Factorization Model with method of singular value decomposition</strong>. The main idea is mainly like this: given the processed data, we transform it to a rating matrix. By applying the svd method, we decompose the rating matrix into two matrices: user matrix and item matrix. Next, we use these two matrices to predict the score for those movie that the user has not seen yet. Finally we choose the movie which will likely be rated a high score by the user and recommend to him or her.
+						</p>
+					</div>
+					<div class="col-md-6 aboutus-right">
+						<p>
+							We also implemented the recommend system based on two tranditional methods that based on KNN: <strong>user-based recommendation</strong> and <strong>item-based recommendation</strong>.
+						</p>
+						<h3>How do we test the performance? </h3>
+						<p>
+						We will use RSME to indicate the performance of our system.
+						</p>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+			</div>
+			<div class="quote text-center">
+				<div class="container">
+					<p>Great! so how to implement them?</p>
+				</div>
+			</div>
+			<div id="ourwork" class="works">
+				<div class="container">
+					<h2>IMPLEMENTIONS</h2>
+					<span>&nbsp;</span>
+				</div>
+				<br/>
+				<div class="partners">
+				<div class="project-grid">
+					<div class="container">
+					<div class="col-md-12 justify">
+					<h3>SVD </h3>
+						<p>
+							"Matrix factorization models map both users and items to a joint latent factor space of dimensionality f, such that user-item interactions are modeled as inner products in that space. Accordingly, each movie i is associated with a vector qi and each user u is associated with a vector pu, 
+							For a given item i, the elements of qi measure the extent to which the item possesses those factors. For a given user u, the elements of pu measure the extent of interest the user has in items that are high on the corresponding factors."<br/> 
+							<strong><br/>
+							<a href="resource/Recommender-Systems-[Netflix].pdf">Koren, Yehuda, Robert Bell, and Chris Volinsky. "Matrix factorization techniques for recommender systems." Computer 8 (2009): 30-37.</a></strong>
+
+							<br/>
+							<br/>
+							We will explain the model in a simple example. To make the model easy to understand, let's assume two users here: <strong>A</strong> and <strong>B</strong> and two movies here: <strong>Transformer </strong>and <strong>Rush hour</strong>. As for A, he perhaps prefers the fiction movie and less likes the action movie, thus A's preference's matrix may like the right top matrix. 
+							The movie transformer contains 	0.9 fiction and 0.2 action content, then A is likely rating transformer 0.9*0.7+0.2*0.2 = 0.67.<br/>
+							<br/>
+							<img class="project-screen" src="./images/a.jpg" width="1140px" title="name" />
+							<div class="clearfix"> </div>
+							<p>
+							Thus, the model can be denoted as:
+							</p>
+							<img class="project-screen" src="./images/formula.jpg" />
+							<div class="clearfix"> </div>
+							<p>
+								r is the rating matrix, q is the user vector, p is the item vector. we try minimize the difference between known rating matrix and p inner product with q. Here we added regularized model the lambda part to avoid the overfit situation.
+							</p>
+							<p>
+								To solve the model, two approaches are available. The first one is stochastic gradient decent and the second one is alternating least squares. In our project, we code the stochastic gradient decent to solve the problem, since the stochastic gradient decent method is easier and faster than ALS, though at some situation, ALS is better than stochastic gradient decent such as: when the system can use paralleliziation and etc.
+							</p>
+							<p>
+								At each iteration of gradient decent, we will update the user vector and item vector denoted by following equation:
+							</p>
+							<img class="project-screen" src="./images/formula2.jpg" />
+							<img class="project-screen" src="./images/formula3.jpg" />
+							<div class="clearfix"> </div>
+							<p>
+								The e here is the prediction error which is calculated by the origin score minus the prediction score.
+								Gama here is the learning rate. We try to tune up the difference value, and finally get a relative good one.
+								The performance can be find at <a href="#performance" class="anchor">performance</a> part.
+							</p>
+						</p>
+					</br>
+					<h3><b>Item-based Collaborative Filtering</b></h3>
+						<p>
+							Item-based Collaborative Filtering is a model-based algorithm for making recommendation. The algorithm first find the similarity between every items in the dataset. The similarity is calculated by one of the number of similarity measures. This model can predict the unrated items by comparing the similarity between that unrated item and other rated items of the user. 
+						</p>
+
+						<h4><b>Similarity between two items?</b></h4>
+						<p>
+							Similarity between two items is measured by all the users who have rated these two items: 
+
+						</p>
+
+					<h3><b>User-based Collaborative Filtering</b></h3>
+						<p>
+							User-based Collaborative Filtering is a model-based algorihtm for making recommendation. It can be divided into three steps: data representation, forming the neightbors of target user and producing the recommendations. 
+						</p>
+
+						<OL>	
+						<LI><h4><b>
+							Data representations
+						</h4></b></LI>
+							<p>
+								In a typical user-based movies recommendation systems, user input data is a collection of reviews of movies, and usually can be represented as a m * n user movies matrix as R. 
+							</p>
+							<p>
+								Each user is represented by item-rating pairs, and can be summarized in a user-item table, which contains the ratings Rij that have been provided by the ith user for the jth item, the table as following. 
+							</p>
+							<div align="center">
+								<img src="./images/UserBased/UserBased_ratingTable.png" width="50%" />
+							</div>
+							<p>
+								Where Rij denotes the rating of item Ij rated by a user Ui. If user Ui has not rated item Ij, then Rij =0. The symbol m denotes the total number of users, and n denotes the total number of items.
+							</p>
+
+						<LI><h4><b>
+							Forming Neighbors
+						</h4></b></LI>
+							<p>
+								User-based recommendation system, the most important step is to target users based on similarity calculation of neighbor users. The main objective of the formation of a neighbor, for a user u, to find an orderly queue l users N = {N1, N2, ... , Nl}, makes the sim (u, N1) of the value of the maximum, sim (u, N2) the value of the second, and so on.  Choosing a proper similarity method can obviously improve the performance of user-based CF. The three basic similarity methods are as follows: 
+							<UL TYPE="DISK">
+								<LI><b>Cosine Similarity</b> In this case, two users are regarded as two vectors in the n dimensional item space. The similarity between them is measured by computing the cosine of the angle between these two vectors. Formally, similarity between users i and j is given by 
+									<div align="center">
+										<img src="./images/UserBased/UserBased_Formula_Cosine.png" width="40%" />
+									</div>
+									<p>
+										where I J, represent the n dimensional vectors that users i and j rated on the n items; Item represents the whole items; Ric Rjc denote the ratings user i and j on the item c . 
+									</p>
+								<LI><b>Adjusted Cosine Similarity</b> Basic cosine measure has one important drawback that the differences in rating scale between different users are not taken into account. The adjusted cosine similarity offsets this drawback by subtracting the corresponding user average rating from each co-rated pair. Formally, the similarity between user i and j is given by 
+									<div align="center">
+										<img src="./images/UserBased/UserBased_Formula_CosineAdjusted.png" width="40%" />
+									</div>
+									<p>
+										where Iij represents the items that user i and j co-rated; ~Ri, ~Rj denote the average rating of user i and j.
+									</p>
+								<LI><b>Pearson's Collection Similarity </b>In this case, similarity between users i and j is measured by computing the Pearson correlation. To make the correlation computation accurate we isolate the co-rated cases. The correlation similarity is given by 
+									<div align="center">
+										<img src="./images/UserBased/UserBased_Formula_Pearson.png" width="40%" />
+									</div>
+							</UL>
+							</p>	
+
+						<LI><h4><b>
+							Prediction
+						</h4></b></LI>
+							<p>
+								we compute a prediction of the target user's rating to an item from a combination of the selected neighbors' ratings. The prediction formula is as follows: 
+							</p>
+							<div align="center">
+								<img src="./images/UserBased/UserBased_Formula_Prediction.png" width="35%" />
+							</div>
+
+						<LI><h4><b>
+							Result and analysis
+						</h4></b></LI>
+							<p>
+								To be continued
+							</p>
+						</OL>
+						
+
+						
+
+
+
+					</div>
+					<div class="clearfix"> </div>
+					<div class="project-grid-info">
+						<div class="col-md-3 project-grid-info-left">
+							<h3>GIHUB SITE:</h3>
+							<label><a href="https://github.com/YiMysty/SVD">https://github.com/YiMysty/SVD</a></label>
+							<a class="sitedemo" href="https://github.com/YiMysty/SVD">VISIT SITE</a>
+						</div>
+						<div class="col-md-9 project-grid-info-left">
+							<h3><a href="#">How to import the project? </a></h3>
+							<p>1. download the whole file except the file in web folder from github.</p>
+							<p>2. New a project in the Eclipse.</p>
+							<p>3. Copy the file in src folder into the src folder in your new project.</p>
+							<p>4. Copy other files under the project folder.</p>
+							<p>5. Run Test.java</p>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+					</div>
+				</div>
+			</div>
+			<div class="quote text-center">
+				<div class="container">
+					<p>How well do they perform?</p>
+				</div>
+			</div>
+			<div id="performance" class="contact"> 
+				<div class="container">
+					<h2>10-CROSS VALIDATION</h2>
+					<span></span>
+					<h3><strong>SVD Based</strong></h3>
+					<p>We tuned up our parameter on learning rate and regulation factor, and get a relative good result.<br/></p>
+					<table class="table">
+						<tr>
+							<td>RSME/TURN</td>
+							<td>1</td>
+							<td>2</td>
+							<td>3</td>
+							<td>4</td>
+							<td>5</td>
+							<td>6</td>
+							<td>7</td>
+							<td>8</td>
+							<td>9</td>
+							<td>10</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td>0.98158</td>
+							<td>0.96639</td>
+							<td>0.98995</td>
+							<td>0.97669</td>
+							<td>0.96669</td>
+							<td>0.97912</td>
+							<td>0.99078</td>
+							<td>0.99178</td>
+							<td>0.99867</td>
+							<td>0.98343	</td>
+						</tr>
+					</table>
+					<p>
+						<strong>For comparison, Netflix system achieves RMSE = 0.9514 on its dataset with the same method.</strong>
+					</p>
+				</div>
+			</div>
+			<div class="quote text-center">
+				<div class="container">
+					<p>Questions?</p>
+				</div>
+			</div>
+			<div id="contact" class="contact"> 
+				<div class="container">
+					<h2>WAYS TO CONTACT US</h2>
+					<span> </span>
+				<div class="contact-grids">
+					<div class="col-md-6 contact-left">
+						<p>If you have any questions, please feel free to contact us.</p>
+						<div class="address">
+							<label>YI Mingzi</label>
+							<label><a href="mailto:mingziyi2014@u.northwestern.edu">mingziyi2014@u.northwestern.edu</a></label>
+						</div>
+						<div class="clearfix"> </div>
+						<div class="address">
+							<label>GUO Yifan</label>
+							<label><a href="mailto:yifanguo2015@u.northwestern.edu">yifanguo2015@u.northwestern.edu</a></label>
+						</div>
+						<div class="clearfix"> </div>
+						<div class="address">
+							<label>Min Hsiu Hsieh</label>
+							<label><a href="mailto:minhsiuhsieh2016@u.northwestern.edu">minhsiuhsieh2016@u.northwestern.edu</a></label>
+						</div>
+						<div class="clearfix"> </div>
+						<div class="address">
+							<label>WANG Bingyu</label>
+							<label><a href="mailto:bingyuwang2014@u.northwestern.edu">bingyuwang2014@u.northwestern.edu</a></label>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+			</div>
+			</div>
+			<script type="text/javascript">
+				jQuery(
+					function($){
+						$(document).ready(
+							function(){
+								$('.navbar-wrapper').stickUp()
+						})
+					})
+			</script>
+			<div class="copy-right text-center">
+				<div class="container">
+					<p>EECS 349 FINAL PROJECT</p>
+						<script type="text/javascript">
+							$(document).ready(function() {
+								$().UItoTop({ easingType: 'easeOutQuart' });
+							});
+						</script>
+					<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+				</div>
+			</div>
+	</body>
+</html>
+
